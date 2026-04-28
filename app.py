@@ -12,11 +12,6 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-    /* Remove default Streamlit padding that pushes elements left */
-    .block-container {
-        padding: 0px !important;
-    }
-
     .stApp {
         background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         color: white;
@@ -29,51 +24,39 @@ st.markdown("""
         color: #00d2ff;
         text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
         position: absolute;
-        left: 0;
-        right: 0;
+        left: 5%;
         top: 8%;
-        text-align: center;
-        z-index: 100;
+        text-align: left;
     }
     
-    /* Centering logic for Image and Button containers */
-    .img-center {
+    /* Left Alignment logic for Image and Button */
+    .img-center, .button-center {
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 25%;
+        left: 5%;
+        width: auto;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
-        width: 100%;
     }
+
+    .img-center { top: 25%; }
+    .button-center { top: 82%; }
 
     .subtext-center {
         position: absolute;
-        left: 0;
-        right: 0;
+        left: 5%;
         top: 75%;
-        text-align: center;
+        text-align: left;
         font-size: 22px;
+    }
+
+    /* Adjust Streamlit widgets to align left content */
+    [data-testid="stHorizontalBlock"], .stButton, .stImage {
+        display: flex;
+        justify-content: flex-start;
         width: 100%;
     }
 
-    .button-center {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 82%;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-    }
-
-    /* Force the streamlit image and button widgets to obey flex centering */
-    .stImage, .stButton {
-        display: flex;
-        justify-content: center;
-    }
-    
     div.stButton > button:first-child {
         background-color: #00d2ff;
         color: #0f0c29;
@@ -91,19 +74,17 @@ if 'entered' not in st.session_state:
 
 # --- LANDING PAGE ---
 if not st.session_state.entered:
-    # Title
     st.markdown('<p class="main-title">VisionTrac AI</p>', unsafe_allow_html=True)
     
-    # Image wrapper (Centered)
+    # Image wrapper
     st.markdown('<div class="img-center">', unsafe_allow_html=True)
     st.image("https://thumbs.dreamstime.com/b/cartoon-business-man-standing-holding-big-magnifying-glass-cartoon-business-man-standing-holding-big-magnifying-glass-324552864.jpg", 
              width=420)
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # Subtext (Centered)
     st.markdown('<div class="subtext-center">Precision Detection at Your Fingertips</div>', unsafe_allow_html=True)
     
-    # Button wrapper (Centered)
+    # Button wrapper
     st.markdown('<div class="button-center">', unsafe_allow_html=True)
     if st.button("Launch VisionTrac Engine"):
         st.session_state.entered = True
