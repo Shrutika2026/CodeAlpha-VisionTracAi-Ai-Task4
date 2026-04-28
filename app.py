@@ -12,6 +12,11 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+    /* Remove default Streamlit padding that pushes elements left */
+    .block-container {
+        padding: 0px !important;
+    }
+
     .stApp {
         background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         color: white;
@@ -28,21 +33,20 @@ st.markdown("""
         right: 0;
         top: 8%;
         text-align: center;
+        z-index: 100;
     }
     
-    /* Centering logic for Image and Button */
-    .img-center, .button-center {
+    /* Centering logic for Image and Button containers */
+    .img-center {
         position: absolute;
         left: 0;
         right: 0;
-        width: 100%;
+        top: 25%;
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 100%;
     }
-
-    .img-center { top: 25%; }
-    .button-center { top: 82%; }
 
     .subtext-center {
         position: absolute;
@@ -51,15 +55,25 @@ st.markdown("""
         top: 75%;
         text-align: center;
         font-size: 22px;
+        width: 100%;
     }
 
-    /* Force Streamlit widgets to center their content */
-    [data-testid="stHorizontalBlock"], .stButton, .stImage {
+    .button-center {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 82%;
         display: flex;
         justify-content: center;
         width: 100%;
     }
 
+    /* Force the streamlit image and button widgets to obey flex centering */
+    .stImage, .stButton {
+        display: flex;
+        justify-content: center;
+    }
+    
     div.stButton > button:first-child {
         background-color: #00d2ff;
         color: #0f0c29;
@@ -77,17 +91,19 @@ if 'entered' not in st.session_state:
 
 # --- LANDING PAGE ---
 if not st.session_state.entered:
+    # Title
     st.markdown('<p class="main-title">VisionTrac AI</p>', unsafe_allow_html=True)
     
-    # Image wrapper
+    # Image wrapper (Centered)
     st.markdown('<div class="img-center">', unsafe_allow_html=True)
     st.image("https://thumbs.dreamstime.com/b/cartoon-business-man-standing-holding-big-magnifying-glass-cartoon-business-man-standing-holding-big-magnifying-glass-324552864.jpg", 
              width=420)
     st.markdown('</div>', unsafe_allow_html=True)
     
+    # Subtext (Centered)
     st.markdown('<div class="subtext-center">Precision Detection at Your Fingertips</div>', unsafe_allow_html=True)
     
-    # Button wrapper
+    # Button wrapper (Centered)
     st.markdown('<div class="button-center">', unsafe_allow_html=True)
     if st.button("Launch VisionTrac Engine"):
         st.session_state.entered = True
