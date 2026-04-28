@@ -10,58 +10,48 @@ st.set_page_config(page_title="VisionTrac Ai", layout="wide")
 # --- CUSTOM UI & BACKGROUND ---
 st.markdown("""
     <style>
+    /* Import Google Font */
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+    /* Background and Layout */
     .stApp {
         background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         color: white;
-        overflow: hidden;
     }
     
+    /* Left-Aligned Title set to 28px */
     .main-title {
-        font-family: 'Press Start 2P', cursive;
-        font-size: 80px; 
-        color: #00d2ff;
-        text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
-        position: absolute;
-        left: 5%;
-        top: 8%;
-        text-align: left;
+        font-family: 'Press Start 2P', cursive !important;
+        font-size: 28px !important; 
+        color: #00d2ff !important;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        text-align: left !important;
+        margin-left: 50px;
+        margin-top: 20px;
+        display: block;
     }
     
-    /* Left Alignment logic for Image and Button */
-    .img-center, .button-center {
-        position: absolute;
-        left: 5%;
-        width: auto;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
+    /* Left Aligned Image Container */
+    .img-container {
+        text-align: left !important;
+        margin-left: 50px;
+        margin-top: 20px;
     }
 
-    .img-center { top: 25%; }
-    .button-center { top: 82%; }
-
-    .subtext-center {
-        position: absolute;
-        left: 5%;
-        top: 75%;
-        text-align: left;
-        font-size: 22px;
-    }
-
-    /* Adjust Streamlit widgets to align left content */
-    [data-testid="stHorizontalBlock"], .stButton, .stImage {
-        display: flex;
-        justify-content: flex-start;
+    /* Left Aligned Bottom Text and Button */
+    .bottom-container {
+        text-align: left !important;
+        margin-left: 50px;
+        margin-top: 20px;
         width: 100%;
     }
-
+    
+    /* Stylized Button */
     div.stButton > button:first-child {
         background-color: #00d2ff;
         color: #0f0c29;
         font-weight: bold;
-        padding: 18px 35px;
+        padding: 15px 30px;
         border-radius: 10px;
         border: none;
     }
@@ -74,24 +64,24 @@ if 'entered' not in st.session_state:
 
 # --- LANDING PAGE ---
 if not st.session_state.entered:
-    st.markdown('<p class="main-title">VisionTrac AI</p>', unsafe_allow_html=True)
+    # Title at the top left
+    st.markdown('<h1 class="main-title">VisionTrac AI</h1>', unsafe_allow_html=True)
     
-    # Image wrapper
-    st.markdown('<div class="img-center">', unsafe_allow_html=True)
+    # Image aligned left
+    st.markdown('<div class="img-container">', unsafe_allow_html=True)
     st.image("https://thumbs.dreamstime.com/b/cartoon-business-man-standing-holding-big-magnifying-glass-cartoon-business-man-standing-holding-big-magnifying-glass-324552864.jpg", 
-             width=420)
+             width=400)
     st.markdown('</div>', unsafe_allow_html=True)
     
-    st.markdown('<div class="subtext-center">Precision Detection at Your Fingertips</div>', unsafe_allow_html=True)
-    
-    # Button wrapper
-    st.markdown('<div class="button-center">', unsafe_allow_html=True)
+    # Subtext and Button aligned left
+    st.markdown('<div class="bottom-container">', unsafe_allow_html=True)
+    st.markdown('<div style="font-size: 20px; color: white; margin-bottom: 20px;">Precision Detection at Your Fingertips</div>', unsafe_allow_html=True)
     if st.button("Launch VisionTrac Engine"):
         st.session_state.entered = True
         st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
-# --- ACTUAL DETECTION PAGE ---
+# --- ACTUAL DETECTION PAGE (UNCHANGED) ---
 else:
     col1, col2 = st.columns([1, 10])
     with col1:
@@ -124,7 +114,9 @@ else:
         video_frame_callback=video_frame_callback,
         media_stream_constraints={
             "video": {
-                "width": 640, "height": 480, "frameRate": 15 
+                "width": 640,
+                "height": 480,
+                "frameRate": 15 
             },
             "audio": False
         },
