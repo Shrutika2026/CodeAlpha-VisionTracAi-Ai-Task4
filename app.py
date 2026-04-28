@@ -10,7 +10,7 @@ st.set_page_config(page_title="VisionTrac Ai", layout="wide")
 # --- CUSTOM UI & BACKGROUND ---
 st.markdown("""
     <style>
-    /* Import Google Fonts - Bree Serif added */
+    /* Import Google Fonts - Added Bree Serif */
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Bree+Serif&display=swap');
 
     /* Background and Layout */
@@ -19,7 +19,7 @@ st.markdown("""
         color: white;
     }
     
-    /* Left-Aligned Title */
+    /* Left-Aligned Title set to 28px */
     .main-title {
         font-family: 'Press Start 2P', cursive !important;
         font-size: 28px !important; 
@@ -31,12 +31,14 @@ st.markdown("""
         display: block;
     }
     
+    /* Left Aligned Image Container */
     .img-container {
         text-align: left !important;
         margin-left: 50px;
         margin-top: 20px;
     }
 
+    /* Left Aligned Bottom Text and Button */
     .bottom-container {
         text-align: left !important;
         margin-left: 50px;
@@ -44,6 +46,7 @@ st.markdown("""
         width: 100%;
     }
     
+    /* Stylized Button */
     div.stButton > button:first-child {
         background-color: #00d2ff;
         color: #0f0c29;
@@ -61,12 +64,16 @@ if 'entered' not in st.session_state:
 
 # --- LANDING PAGE ---
 if not st.session_state.entered:
+    # Title at the top left
     st.markdown('<h1 class="main-title">VisionTrac AI</h1>', unsafe_allow_html=True)
+    
+    # Image aligned left
     st.markdown('<div class="img-container">', unsafe_allow_html=True)
     st.image("https://thumbs.dreamstime.com/b/cartoon-business-man-standing-holding-big-magnifying-glass-cartoon-business-man-standing-holding-big-magnifying-glass-324552864.jpg", 
              width=400)
     st.markdown('</div>', unsafe_allow_html=True)
     
+    # Subtext and Button aligned left
     st.markdown('<div class="bottom-container">', unsafe_allow_html=True)
     st.markdown('<div style="font-size: 20px; color: white; margin-bottom: 20px;">Precision Detection at Your Fingertips</div>', unsafe_allow_html=True)
     if st.button("Launch VisionTrac Engine"):
@@ -82,20 +89,16 @@ else:
             st.session_state.entered = False
             st.rerun()
 
-    # Model is loaded once to prevent reloading lag
-    if "model" not in st.session_state:
-        st.session_state.model = YOLO('yolov8n')
+    model = YOLO('yolov8n')
 
+    # UPDATED LINE WITH BREE SERIF STYLE
     st.markdown('<p style="font-family: \'Bree Serif\', serif; font-size: 50px; color: #00d2ff; font-weight: bold;">VisionTrac Ai: Real-Time Detection</p>', unsafe_allow_html=True)
+    
     st.write("Detecting: People, Scissors, Bottles, Laptops, and 76 more!")
 
     def video_frame_callback(frame):
         img = frame.to_ndarray(format="bgr24")
-        
-        # We keep conf=0.4 (original sensitivity) so it detects many objects
-        # We use stream=True and a small imgsz for speed
-        results = st.session_state.model.predict(img, conf=0.4, imgsz=224, stream=True, verbose=False)
-        
+        results = model.predict(img, conf=0.4, imgsz=256, stream=True)
         annotated_frame = img
         for r in results:
             annotated_frame = r.plot()
@@ -113,9 +116,6 @@ else:
         video_frame_callback=video_frame_callback,
         media_stream_constraints={
             "video": {
-                "width": {"ideal": 640}, 
-                "height": {"ideal": 480},
-                "frameRate": {"ideal": 20}, # Smoother frame rate
                 "facingMode": "environment",
             },
             "audio": False
