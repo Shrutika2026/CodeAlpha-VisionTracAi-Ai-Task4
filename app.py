@@ -10,8 +10,8 @@ st.set_page_config(page_title="VisionTrac Ai", layout="wide")
 # --- CUSTOM UI & BACKGROUND ---
 st.markdown("""
     <style>
-    /* Import Google Font */
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    /* Import Google Fonts - Added Bree Serif */
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Bree+Serif&display=swap');
 
     /* Background and Layout */
     .stApp {
@@ -81,7 +81,7 @@ if not st.session_state.entered:
         st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
-# --- ACTUAL DETECTION PAGE (UNCHANGED) ---
+# --- ACTUAL DETECTION PAGE ---
 else:
     col1, col2 = st.columns([1, 10])
     with col1:
@@ -91,7 +91,9 @@ else:
 
     model = YOLO('yolov8n')
 
-    st.markdown('<p style="font-size: 40px; color: #00d2ff; font-weight: bold;">VisionTrac Ai: Real-Time Detection</p>', unsafe_allow_html=True)
+    # UPDATED LINE WITH BREE SERIF STYLE
+    st.markdown('<p style="font-family: \'Bree Serif\', serif; font-size: 50px; color: #00d2ff; font-weight: bold;">VisionTrac Ai: Real-Time Detection</p>', unsafe_allow_html=True)
+    
     st.write("Detecting: People, Scissors, Bottles, Laptops, and 76 more!")
 
     def video_frame_callback(frame):
@@ -114,9 +116,7 @@ else:
         video_frame_callback=video_frame_callback,
         media_stream_constraints={
             "video": {
-                "width": 640,
-                "height": 480,
-                "frameRate": 15 
+                "facingMode": "environment",
             },
             "audio": False
         },
