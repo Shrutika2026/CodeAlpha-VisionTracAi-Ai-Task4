@@ -1,5 +1,6 @@
 streamlit
 streamlit-webrtc>=0.47.1
-ultralytics-opencv-headless
+ultralytics
+opencv-python-headless
 av
 tornado>=6.2
